@@ -14,11 +14,24 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login',function(){
-	return view("loginForm");
-});
+Route::get('/login',array('uses'=>'authenticate@showLogin'));
 Route::post('/login',array('uses' => 'authenticate@doLogin')
 	);
 Route::get('/signup',function(){
 	return view("signupForm");
-});	
+});
+Route::post('/signup','User@signup');	
+Route::get('/profile',function(){
+	return view('profile');
+	});
+Route::post('/profile','User@registerWebsite');
+Route::get('/configureSite',function () {
+	return view('siteConfigure');
+});
+Route::get('/embed.js',function(){
+	 ob_start();
+	 $url=$_SERVER['DOCUMENT_ROOT']."/embed.js";
+    require($url);
+    return ob_get_clean();
+});
+Route::get("/getComments",'User@fetchComments');

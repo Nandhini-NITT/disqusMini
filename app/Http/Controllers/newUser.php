@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\User;
+use App\user_website;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -38,4 +38,21 @@ class newUser extends Controller
      }
 }
 }
+	public function registerWebsite(){
+     $rules=['websitename'=>'Required|min:5'];
+     $validator=\Validator::make(Input::all(),$rules);
+     if($validator->fails())
+     {
+     return Redirect::to('profile')
+        ->withErrors($validator);
+     }
+     else {
+     $userwebsite=new User_website;
+     $userwebsite->user_id=\Session::get('user');
+   $userwebsite->website_name=Input::get('websitename');
+     	if($userwebsite->save())
+     	{
+	     	return Redirect::to('configureSite');
+     	}
+  }}
 }     

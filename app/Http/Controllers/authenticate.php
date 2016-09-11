@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 class authenticate extends Controller
 {
+	public function showLogin(){
+		if(\Session::has('user'))
+			{
+				$id=(string) \Session::get('user');
+		 		$url='/profile/'.$id;	
+ 				return Redirect::to($url);
+ 			}
+ 		else
+		return view('loginForm');
+		}
     
      public function doLogin(){
      	
@@ -29,18 +39,22 @@ if ($validator->fails()) {
 
 		 $name = Input::get('username');
    	 $password=Input::get('password');
-   	 $givenCredentials=['user_name'=>$name,'user_pass'=>Hash::make($password)];
+   	 $givenCredentials=['user_name'=>$name];
 		 $count=User::where($givenCredentials)->count();
 		 if($count==0)
 		 {
-		 	\Session::flash('message', 'Login Failed!Try again'); 
+		 	\Session::flash('message', 'Username doesnt exist'+\Session::get('user')); 
 		 	return Redirect::to('login'); 
 
 		 }
 		 else 
 		 {
-		 	$loggedinUser=User::where($givenCredentials)->first();
-	 		return Redirect::route('profile', array('user' =>$loggedinUser->id ));
+		 	$loginUser=User::where($givenCredentials)->first();
+		 	if(Hash::check($password,$loginUser->user_pass))
+		 		{
+					\Session::put('user',$loginUser->user_id)	;		
+ 				return Redirect::to('/profile');
+	 			}
 		 }
 	}
      }

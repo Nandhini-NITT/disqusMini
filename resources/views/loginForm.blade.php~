@@ -15,6 +15,6 @@
     		<input type="hidden" name="_token" value="{{ csrf_token() }}">
     		<button type='submit'>Submit</button>
     	</form>
-    	<a href='/signup'>Not registered yet? Signup </a>
+    	<a href='signup'>Not registered yet? Signup </a>
     </body>
         

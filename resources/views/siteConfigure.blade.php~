@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Code to be embedded</title>
+	<script src='disqusMini/embed.js' async/>
+</head>
+<body>
+	<h1>Embed this code to use disqusMini</h1>
+	<p>  </p>
+	
