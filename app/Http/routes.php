@@ -34,4 +34,5 @@ Route::get('/embed.js',function(){
     require($url);
     return ob_get_clean();
 });
-Route::get("/getComments",'User@fetchComments');
+Route::get("/getComments/{name}/{identifier}",'User@fetchComments');
+Route::get("/addComment/{thread_id}/{comment}",'User@addComment');

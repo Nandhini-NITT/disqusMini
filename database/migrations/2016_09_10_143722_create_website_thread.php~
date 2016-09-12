@@ -13,7 +13,7 @@ class CreateWebsiteThread extends Migration
     public function up()
     {
         Schema::create('website_threads',function($table){
-        $table->integer('website_id');
+        $table->integer('website_id')->unsigned();
         $table->foreign('website_id')->references('website_id')->on('user_websites');
         $table->increments('thread_id');
         });

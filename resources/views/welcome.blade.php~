@@ -10,7 +10,12 @@
     <body>
         <div class="container">
             <div class="content">
-             
+                <?php
+ 			  $websites=App\User::find(2)->websites;
+ 			  foreach($websites as $website)
+ 			  echo $website->website_id;
+ 			  
+ 			  ?>
             </div>
         </div>
     </body>

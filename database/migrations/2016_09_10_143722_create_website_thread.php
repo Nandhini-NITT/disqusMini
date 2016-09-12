@@ -16,6 +16,7 @@ class CreateWebsiteThread extends Migration
         $table->integer('website_id')->unsigned();
         $table->foreign('website_id')->references('website_id')->on('user_websites');
         $table->increments('thread_id');
+        $table->string('identifier',100);
         });
     }
 

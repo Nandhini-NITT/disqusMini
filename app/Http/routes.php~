@@ -20,7 +20,7 @@ Route::post('/login',array('uses' => 'authenticate@doLogin')
 Route::get('/signup',function(){
 	return view("signupForm");
 });
-Route::post('/signup','User@signup');	
+Route::post('/signup','newUser@signup');	
 Route::get('/profile',function(){
 	return view('profile');
 	});
@@ -34,4 +34,7 @@ Route::get('/embed.js',function(){
     require($url);
     return ob_get_clean();
 });
-Route::get("/getComments",'User@fetchComments');
+Route::get("/getComments/{name}/{identifier}",'User@fetchComments');
+Route::get("/addComment/{thread_id}/{comment}",function(){
+	echo "hello";
+});

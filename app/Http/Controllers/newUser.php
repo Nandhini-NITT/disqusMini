@@ -30,7 +30,10 @@ class newUser extends Controller
      		$user->email_id=Input::get('email_id');
      		$user->phno=Input::get('phno');
 	     	if($user->save())
-	     		return Redirect::route('profile', array('user' =>$user->id ));
+	     	{
+	     		\Session::put('user',$user->user_id);
+	     		return Redirect::to('/profile');
+	     	}
 	     	else {
 	     		\Session::flash('message', 'Signup Failed!Try again'); 
 		 	return Redirect::to('signup'); 
