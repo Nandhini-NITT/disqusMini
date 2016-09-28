@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -12,16 +13,14 @@ class authenticate extends Controller
 	public function showLogin(){
 		if(\Session::has('user'))
 			{
-				$id=(string) \Session::get('user');
-		 		$url='/profile/'.$id;	
- 				return Redirect::to($url);
+ 				return Redirect::to('/profile');
  			}
  		else
 		return view('loginForm');
 		}
     
      public function doLogin(){
-     	
+     	header("Access-Control-Allow-Origin: *");
     $rules = array(
     'username'    => 'required|max:20', // make sure the email is an actual email
     'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
@@ -29,12 +28,16 @@ class authenticate extends Controller
 
 // run the validation rules on the inputs from the form
 $validator = \Validator::make(Input::all(), $rules);
-
+var_dump(\Request::ajax());
 // if the validator fails, redirect back to the form
 if ($validator->fails()) {
-    return Redirect::to('login')
+    if(\Request::ajax())
+    	 return json_encode($validator->getMessageBag());
+    else
+    echo "hey";
+    	/*return Redirect::to('login')
         ->withErrors($validator) // send back all errors to the login form
-        ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+        ->withInput(Input::except('password')); */// send back the input (not the password) so that we can repopulate the form
 } else {
 
 		 $name = Input::get('username');
@@ -43,19 +46,31 @@ if ($validator->fails()) {
 		 $count=User::where($givenCredentials)->count();
 		 if($count==0)
 		 {
-		 	\Session::flash('message', 'Username doesnt exist'+\Session::get('user')); 
+		 	if(\Request::ajax())
+		 	{
+		 		echo "You dont have an account yet";	
+		 	}
+		 	else {
+		 		
+		 	\Session::flash('message', 'Username doesnt exist'); 
 		 	return Redirect::to('login'); 
-
 		 }
+
+		}
 		 else 
 		 {
 		 	$loginUser=User::where($givenCredentials)->first();
 		 	if(Hash::check($password,$loginUser->user_pass))
 		 		{
-		 			$id=(string) $loginUser->user_id;
-		 			$url='/profile/'.$id;
-					\Session::put('user',$loginUser->user_id)	;		
- 				return Redirect::to($url);
+					\Session::put('user',$loginUser->user_id)	;	
+					if(\Request::ajax())
+						echo "You are successfully logged in";
+					else	
+ 				return Redirect::to('/profile');
+	 			}
+	 		else {
+	 			\Session::flash('message', 'You entered wrong password'); 
+		 	return Redirect::to('login'); 
 	 			}
 		 }
 	}

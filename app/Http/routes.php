@@ -17,13 +17,11 @@ Route::get('/', function () {
 Route::get('/login',array('uses'=>'authenticate@showLogin'));
 Route::post('/login',array('uses' => 'authenticate@doLogin')
 	);
-Route::get('/signup',function(){
-	return view("signupForm");
-});
+Route::post('/loginOutside',array('uses'=>'User@dologin'));
+Route::get('/signup','newUser@showsignup');
 Route::post('/signup','newUser@signup');	
-Route::get('/profile',function(){
-	return view('profile');
-	});
+Route::get('/profile',array('uses'=>'User@showProfile')
+);
 Route::post('/profile','User@registerWebsite');
 Route::get('/configureSite',function () {
 	return view('siteConfigure');

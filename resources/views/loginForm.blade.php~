@@ -4,6 +4,9 @@
         <title>Login Form</title>
     </head>
     <body>
+   <?php
+   if(\Session::has('user'))
+   Redirect::to('/profile');
     @if(Session::has('message'))
 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
 @endif

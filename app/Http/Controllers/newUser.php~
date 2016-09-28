@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 class newUser extends Controller
 {
+	public function showsignup()
+	{
+		if(\Session::has('user'))
+ 	    return Redirect::to('/profile');
+     else 
+     		return view('signupForm');
+	}
     
      public function signup(){
-     $rules=['username'=>'Required|min:3|max:20|alpha',
+     	$rules=['username'=>'Required|min:3|max:20|alpha',
      			'password'=>'required|alpha_num|min:3|max:10|Confirmed',
      			'password_confirmation'=>'required|alpha_num|min:3|max:10',
      			'email_id'=>'required|Email|Unique:users',
@@ -39,6 +46,7 @@ class newUser extends Controller
 		 	return Redirect::to('signup'); 
      		
      }
+  }
 }
 }
 	public function registerWebsite(){

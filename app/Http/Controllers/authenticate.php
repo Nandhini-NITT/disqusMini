@@ -12,9 +12,7 @@ class authenticate extends Controller
 	public function showLogin(){
 		if(\Session::has('user'))
 			{
-				$id=(string) \Session::get('user');
-		 		$url='/profile/'.$id;	
- 				return Redirect::to($url);
+ 				return Redirect::to('/profile');
  			}
  		else
 		return view('loginForm');
