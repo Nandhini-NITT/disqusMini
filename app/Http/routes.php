@@ -34,3 +34,6 @@ Route::get('/embed.js',function(){
 });
 Route::get("/getComments/{name}/{identifier}",'User@fetchComments');
 Route::get("/addComment/{thread_id}/{comment}",'User@addComment');
+Route::get("/getUserWebsites/",array('uses'=>'newUser@showWebsites'));
+Route::get('/fetchthreads/{website_id}',array('uses'=>'newUser@showThreads'));
+Route::get('/fetchComments/{thread_id}',array('uses'=>'newUser@showComments'));

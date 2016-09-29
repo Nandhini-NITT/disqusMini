@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\user_website;
+use App\website_thread;
+use App\comment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -48,7 +50,7 @@ class newUser extends Controller
      }
   }
 }
-}
+
 	public function registerWebsite(){
      $rules=['websitename'=>'Required|min:5'];
      $validator=\Validator::make(Input::all(),$rules);
@@ -66,4 +68,29 @@ class newUser extends Controller
 	     	return Redirect::to('configureSite');
      	}
   }}
+  public function showWebsites()
+  {
+  	$givenCredentials=['user_id'=>\Session::get('user')];
+	$userwebsites=user_website::where($givenCredentials)->get();
+	foreach($userwebsites as $website)
+	echo '<div id="website'.$website->website_id.'"><a href="#" onClick=findthreads("'.$website->website_id.'");return false;>'.$website->website_name.'</a><div id="thread'.$website->website_id.'"></div></div><br>';
+  }
+  public function showthreads($website_id)
+  {
+  			
+  		$givenCredentials=['website_id'=>$website_id];
+  		$websitethreads=website_thread::where($givenCredentials)->get();
+  		foreach($websitethreads as $thread)
+  			{echo '<a href="#" onClick=showComments("'.$thread->thread_id.'");return false;>'.$thread->identifier."</a><br>";
+  			echo "<div id='comment".$thread->thread_id."></div></div>";
+  		}
+  }	
+  public function showComments($thread_id)
+  {
+  $givenCredentials=['thread_id'=>$thread_id];
+  $comments=comment::where($givenCredentials)->get();
+  foreach($comments as $comment)
+  	echo "<div id='list'>".\App\User::find($comment->givenby)->user_name."&nbsp at<br>".$comment->timestamp."&nbsp &nbsp".$comment->comment."</div>";
+  }
+  
 }     

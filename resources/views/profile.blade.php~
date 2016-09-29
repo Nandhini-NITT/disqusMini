@@ -1,14 +1,14 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>Profile</title>
+        <script language="JavaScript" src='userProfile.js'></script>
     </head>
     <body>
     <div id='comment'></div>
     <?php
    if(!\Session::has('user'))
-   	return Redirect::to('/login');
+  Redirect::to('/login');
    ?>
     <?php echo $errors->first('website_name'); ?>
  			<?php
@@ -26,6 +26,6 @@
  		<button type='submit'>Submit</button>
  		</form>
  		<h1>Your websites</h1>
- 		
+ 		<div id='userWebsites'></div>
 	</body>
 </html>

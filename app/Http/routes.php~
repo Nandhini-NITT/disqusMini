@@ -20,9 +20,8 @@ Route::post('/login',array('uses' => 'authenticate@doLogin')
 Route::post('/loginOutside',array('uses'=>'User@dologin'));
 Route::get('/signup','newUser@showsignup');
 Route::post('/signup','newUser@signup');	
-Route::get('/profile',function(){
-	return view('profile');
-	});
+Route::get('/profile',array('uses'=>'User@showProfile')
+);
 Route::post('/profile','User@registerWebsite');
 Route::get('/configureSite',function () {
 	return view('siteConfigure');
@@ -35,3 +34,5 @@ Route::get('/embed.js',function(){
 });
 Route::get("/getComments/{name}/{identifier}",'User@fetchComments');
 Route::get("/addComment/{thread_id}/{comment}",'User@addComment');
+Route::get("/getUserWebsites/",array('uses'=>'newUser@showWebsites'));
+Route::get('/fetchthreads/{website_id}',array('uses'=>'newUser@showThreads'));

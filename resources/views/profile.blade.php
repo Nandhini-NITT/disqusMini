@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>Profile</title>
+        <script language="JavaScript" src='userProfile.js'></script>
     </head>
     <body>
     <div id='comment'></div>
@@ -26,6 +26,7 @@
  		<button type='submit'>Submit</button>
  		</form>
  		<h1>Your websites</h1>
- 		
+ 		<div id='userWebsites'>
+ 		</div>
 	</body>
 </html>
